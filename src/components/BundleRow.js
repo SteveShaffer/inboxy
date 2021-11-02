@@ -26,11 +26,16 @@ import {
 
 const MAX_MESSAGE_COUNT = 25;
 
+// TODO: Is there a more appropriate place to do this lookup?
 // TODO: Using colors sholuld default to false?
 let useLabelColorsSetting = true;
-chrome.storage.sync.get(['useLabelColors'], ({ useLabelColors = true }) => {
-    useLabelColorsSetting = useLabelColors;
-});
+try {
+    chrome.storage.sync.get(['useLabelColors'], ({ useLabelColors = true }) => {
+        useLabelColorsSetting = useLabelColors;
+    });
+} catch (e) {
+    console.error('Could not retrieve setting for using label colors.  Defaulting to yes.');
+}
 
 /**
  * Create a table row for a bundle, to be shown in the list of messages. 
